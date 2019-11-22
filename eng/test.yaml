@@ -1,0 +1,53 @@
+steps: 
+
+- task: DotNetCoreCLI@2
+  displayName: Test C# (dotnet test)
+  inputs:
+    command: 'custom'
+    projects: 'src/**/*.Tests.csproj'
+    custom: 'test'
+    arguments: > 
+      --configuration $(_BuildConfig)
+      --collect:"Code Coverage"
+      --filter "TestCategory!=PostDeployment&TestCategory!=Nightly&TestCategory!=PreDeployment"
+      --logger trx
+  condition: succeededOrFailed()
+
+- powershell: |
+    $coverageFile = Get-ChildItem -Path $(system.defaultworkingdirectory) -Filter *.coverage -Recurse -ErrorAction SilentlyContinue -Force
+    Write-Host "Code coverage files found: "
+    Write-Host $coverageFile.FullName
+
+    $codeCoverageExe = "C:\Program Files (x86)\Microsoft Visual Studio\2017\Enterprise\Team Tools\Dynamic Code Coverage Tools\CodeCoverage.exe"
+
+    &$codeCoverageExe analyze /output:$(system.defaultworkingdirectory)\codecoverage.coveragexml $coverageFile.FullName
+
+    Write-Host "Was the coverage XML file created?"
+    Test-Path $(system.defaultworkingdirectory)\codecoverage.coveragexml -PathType Leaf
+  displayName: Convert Code Coverage to XML (powershell)
+
+- task: Palmmedia.reportgenerator.reportgenerator-build-release-task.reportgenerator@4
+  displayName: ReportGenerator
+  inputs:
+    reports: '$(system.defaultworkingdirectory)\codecoverage.coveragexml'
+    targetdir: '$(Build.SourcesDirectory)\CodeCoverage'
+    reporttypes: 'HtmlInline_AzurePipelines;Cobertura'
+    sourcedirs: '$(Build.SourcesDirectory)'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish Code Coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    summaryFileLocation: '$(Build.SourcesDirectory)\CodeCoverage\Cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\CodeCoverage'
+    pathToSources: '$(Build.SourcesDirectory)'
+    publishRunAttachments: true
+
+- task: PublishTestResults@2
+  displayName: 'Publish Unit Test Results'
+  inputs: 
+    testResultsFormat: VSTest
+    testResultsFiles: '**/*.trx'
+    mergeTestResults: true
+    searchFolder: $(system.defaultworkingdirectory)
+    testRunTitle: Arcade Services Unit Tests
