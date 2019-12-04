@@ -1,5 +1,16 @@
 steps: 
 
+- task: DotNetCoreInstaller@0
+  inputs:
+    version: 3.0.100-preview3-010431
+    packageType: sdk
+
+- task: UseDotNet@2
+  displayName: 'Use .NET Core sdk'
+  inputs:
+    packageType: sdk
+    version: 3.0.100-preview3-010431
+
 - task: DotNetCoreCLI@2
   displayName: Test C# (dotnet test)
   inputs:
