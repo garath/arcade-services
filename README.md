@@ -20,7 +20,22 @@ Please follow our [Validation Process](https://github.com/dotnet/core-eng/blob/m
 
 ### License
 
-.NET Core (including the Arcade repo) is licensed under the [MIT license](LICENSE.TXT). 
+.NET Core (including the Arcade repo) is licensed under the [MIT license](LICENSE.TXT).
+
+## Projects
+
+Services and Tools:
+
+- [Maestro](src/Maestro/Readme.md)
+- [RolloutScorer](src/RolloutScorer/Readme.md)
+- [Darc](src/Microsoft.DotNet.Darc/), and DarcLib
+- [Darcbot](src/GitHubApps/src/DarcBot/ReadMe.md)
+- [DotNet.Status.Web](src/DotNet.Status.Web/)
+- [Timeline Telemetry](src/Telemetry/)
+- Monitoring and alerting support, including
+  - [Microsoft.DotNet.Monitoring.Sdk](src/Monitoring/Sdk/README.md)
+
+Additionally, a number of shared supporting libraries live here.
 
 ### BARViz Best Practices
 
@@ -28,7 +43,7 @@ Please follow our [Validation Process](https://github.com/dotnet/core-eng/blob/m
 
 Each of the links on the left side bar represent a channel for a product. Clicking on one of these links will load the current build state for a channel. 
 
-The two main states of a channel’s current build are as follows: 
+The two main states of a channel's current build are as follows: 
 
 - [Green checkmark] Current build is good. 
 
