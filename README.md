@@ -37,9 +37,9 @@ Services and Tools:
 
 Additionally, a number of shared supporting libraries live here.
 
-### BARViz Best Practices
+## BARViz Best Practices
 
-#### How to Understand the State of a Build and Channel
+### How to Understand the State of a Build and Channel
 
 Each of the links on the left side bar represent a channel for a product. Clicking on one of these links will load the current build state for a channel. 
 
@@ -55,13 +55,13 @@ While looking at a build, you may notice highlighted (in yellow) dependencies. T
 
 When mousing over a dependency, you may notice icons that show up along the left-hand side of the list. The icon at the top of the column provides help for understanding these icons. These icons are to assist in understanding the hierarchy of the dependency graph and to point out conflicting dependencies within the build.  
 
-#### How to Understand Versions and Hashes Used for a Build
+### How to Understand Versions and Hashes Used for a Build
 
 The number at the top of the build's page, next to the URL for the repository, is the current build number of the repository. The link of the hash below the URL will take you to the AzDO repository and the hash referenced so that the user can see all the commits that are a part of the latest build. 
 
 Similarly, each dependency denotes the version of that dependency used and a link to the hash of the latest commit that was contained in the build. 
 
-#### How to Onboard a New Repository
+### How to Onboard a New Repository
 
 If you would like to see your repository on BARViz, it needs to be published to the Build Asset Registry. Please see the [Darc documentation](https://github.com/dotnet/arcade/blob/master/Documentation/Darc.md).
 
